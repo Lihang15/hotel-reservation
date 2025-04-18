@@ -1,0 +1,17 @@
+{
+  "name": "hotel-reservation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "askc-ui:dev": "pnpm --filter askc-ui run docs:dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  
+  "devDependencies": {
+    "cross-env": "^6.0.0"
+  }
+}
