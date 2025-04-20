@@ -1,0 +1,47 @@
+{
+  "name": "hotel-frontend",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "author": "",
+  "scripts": {
+    "dev": "cross-env API_ENV=dev max dev",
+    "uat": "cross-env API_ENV=uat max dev",
+    "build:dev": "cross-env API_ENV=dev max build",
+    "build:uat": "cross-env API_ENV=uat max build",
+    "build:prod": "cross-env API_ENV=prod max build",
+    "build:coreUat":"cross-env API_ENV=coreUat max build",
+    "build": "max build",
+    "format": "prettier --cache --write .",
+    "prepare": "husky",
+    "postinstall": "max setup",
+    "setup": "max setup",
+    "start": "npm run dev"
+  },
+  "dependencies": {
+    "@ant-design/charts": "^2.2.5",
+    "@ant-design/icons": "^5.0.1",
+    "@ant-design/plots": "^2.3.2",
+    "@ant-design/pro-components": "^2.4.4",
+    "@ant-design/pro-layout": "^7.16.7",
+    "@types/react-highlight-words": "^0.20.0",
+    "@umijs/max": "^4.3.28",
+    "antd": "^5.4.0",
+    "axios": "^1.7.9",
+    "dayjs": "^1.11.13",
+    "lodash": "^4.17.21",
+    "react-confetti": "^6.2.2",
+    "react-highlight-words": "^0.20.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.15",
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "husky": "^9",
+    "lint-staged": "^13.2.0",
+    "prettier": "^2.8.7",
+    "prettier-plugin-organize-imports": "^3.2.2",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "typescript": "^5.0.3"
+  }
+}

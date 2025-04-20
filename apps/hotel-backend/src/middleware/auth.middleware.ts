@@ -1,11 +1,12 @@
-// src/middleware/jwt.middleware
+// // src/middleware/jwt.middleware
 
 import { Inject, Middleware } from '@midwayjs/core';
 import { Context, NextFunction } from '@midwayjs/koa';
 import { JwtService } from '@midwayjs/jwt';
 import { BusinessError, BusinessErrorEnum } from '../error/BusinessError';
-import { Account } from '../entity/postgre/account';
-import { Role } from '../entity/postgre/role';
+import { InjectEntityModel } from '@midwayjs/typegoose';
+import { Account } from '../entity/mongo/account';
+import { ReturnModelType } from '@typegoose/typegoose';
 
 /**
  * 过滤器,用于鉴权
@@ -17,6 +18,9 @@ export class JwtMiddleware {
   @Inject()
   jwtService: JwtService;
 
+  @InjectEntityModel(Account)
+      accountModel: ReturnModelType<typeof Account>;
+
   public static getName(): string {
     return 'jwt';
   }
@@ -24,7 +28,6 @@ export class JwtMiddleware {
   resolve() {
     return async (ctx: Context, next: NextFunction) => {
       // 判断下有没有校验信息
-      console.log('xxxxxxxxzhongjain');
       if (!ctx.headers['authorization']) {
         throw new BusinessError(BusinessErrorEnum.NOT_FOUND,'Unauthorized: Token missing')
       }
@@ -47,30 +50,12 @@ export class JwtMiddleware {
             complete: true,
           });
           if(decode.payload){
-            const account = await Account.findOne({
-                where: {
-                    id: parseInt(decode.payload.id)
-                },
-                include: [
-                  {model: Role, attributes: ['roleName']}
-                ],
-                // raw: true
+            const account = await this.accountModel.findOne({
+                _id: decode.payload._id
             });
-            // console.log(account.dataValues);
-            
-            let isHaveProject = false
-            let isAdmin = false
-            const roles = []
-
-            if(account.roles.length>0){
-                for (const role of account.roles) {
-                  roles.push(role.roleName)
-                  if(role.roleName==='Admin'){
-                    isAdmin = true
-                  }
-                }
-            }
-            ctx.account = {...account.dataValues,roles, isHaveProject,isAdmin}
+            // console.log(account,decode.payload._id,token);
+  
+            ctx.account = account
           }
           
         } catch (error) {
@@ -88,8 +73,6 @@ export class JwtMiddleware {
   public match(ctx: Context): boolean {
     const ignorePaths = [
         '/api/login',
-        '/api/project/start_pattern_conversion',
-        '/api/topic'
       ];
   
       // 检查当前路径是否在忽略列表中

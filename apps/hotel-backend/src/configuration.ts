@@ -9,14 +9,15 @@ import { ReportMiddleware } from './middleware/report.middleware';
 import { BusinessErrorFilter } from './filter/BusinessFilter';
 import { ValidationErrorFilter } from './filter/ValidationFilter';
 import * as crossDomain from '@midwayjs/cross-domain';
-import * as sequelize from '@midwayjs/sequelize';
 import * as jwt from '@midwayjs/jwt';
 import { JwtMiddleware } from './middleware/auth.middleware';
 import { StaticFileMiddleware } from './middleware/static.middleware';
 import { VitepressServeMiddleware } from './middleware/vitepress-serve.middleware';
 import * as cron from '@midwayjs/cron';
 import * as busboy from '@midwayjs/busboy';
+import * as typegoose from '@midwayjs/typegoose';
 import { AccountService } from './service/account/AccountService';
+// import { AccountService } from './service/account/AccountService';
 
 
 @Configuration({
@@ -24,7 +25,7 @@ import { AccountService } from './service/account/AccountService';
     koa,
     validate,
     crossDomain,
-    sequelize,
+    typegoose,
     jwt,
     cron,
     busboy,
@@ -43,7 +44,7 @@ export class MainConfiguration {
 
   async onReady() {
     // add middleware
-    this.app.useMiddleware([ReportMiddleware,StaticFileMiddleware,VitepressServeMiddleware,JwtMiddleware]);
+    this.app.useMiddleware([ReportMiddleware,StaticFileMiddleware,VitepressServeMiddleware, JwtMiddleware]);
     // add filter
     this.app.useFilter([NotFoundFilter, DefaultErrorFilter, BusinessErrorFilter, ValidationErrorFilter]);
   }
@@ -51,10 +52,8 @@ export class MainConfiguration {
  async onServerReady(container: IMidwayContainer){
     console.log('初始化管理员数据');
  
-    // const framework = await container.getAsync(koa.Framework);
-    // const server = framework.getServer();
     const accountService = await container.getAsync(AccountService);
-    await accountService.initAdminDataInDB()
+    await accountService.initDataInDB()
     
  }
 

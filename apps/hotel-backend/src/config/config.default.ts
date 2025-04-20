@@ -12,7 +12,7 @@ export default {
   cors: {
     origin: 'http://localhost:8000',
     credentials: true,
-    allowMethods: ['GET', 'POST'],
+    allowMethods: ['GET', 'POST','PUT'],
   
   // origin: (ctx) => {
   //   const allowedOrigins = ['http://localhost:8000', 'http://10.5.33.192:8000'];
@@ -35,7 +35,7 @@ export default {
   mongoose: {
     dataSource: {
       default: {
-        uri: 'mongodb://admin:wanglihang123@127.0.0.1:27017/hotel',
+        uri: 'mongodb://admin:wanglihang123@localhost:27017/hotel?authSource=admin',
         options: {
           useNewUrlParser: true,
           useUnifiedTopology: true,

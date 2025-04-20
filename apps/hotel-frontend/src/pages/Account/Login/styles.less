@@ -1,0 +1,72 @@
+/* LoginPage.css */
+
+/* 页面整体布局 */
+.container {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+  
+  }
+
+  .leftHalf{
+    background-image: url(../../../assets/images/newbgc.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    width: 58%;
+  }
+
+.rightHalf{
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 42%;
+  // overflow: auto;
+  background-color: #fff;
+  // box-shadow: 0 5px 16px rgba(27,73,155,0.24);
+  :global{
+    .ant-pro-global-footer-copyright{
+      // color: #fff;
+    }
+    .ant-pro-form-login-main{
+      width: 600px;
+      min-width: 600px
+    }
+  }
+}
+
+.content{
+  :global{
+
+    .ant-input-affix-wrapper{
+      padding: 14px 16px;
+    }
+    .ant-pro-form-login-header{
+      margin-bottom: 100px;
+      margin-top: 100px;
+      color: #1b499b;
+    }
+    .ant-form-item-label > label{
+      color: #252631;
+      font-size: 18px;
+    }
+    .ant-form-item-row{
+      margin-bottom: 40px;
+    }
+    .ant-btn{
+      margin-top: 30px;
+      margin-bottom: 50px;
+      height: 46px;
+    }
+    .ant-btn-primary{
+      background-color: #1b499b;
+      box-shadow: 0 2px 0 rgba(10, 45, 75, 0.2);
+    }
+
+  }
+ 
+}
+  
+
+  

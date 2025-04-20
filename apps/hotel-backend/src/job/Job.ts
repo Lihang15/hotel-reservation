@@ -16,7 +16,7 @@ import { FORMAT } from '@midwayjs/core';
 })
 export class RefreshProjectJob implements IJob {
   async onTick() {
-    console.log('定时job');
+    // console.log('定时job');
     
   }
 }

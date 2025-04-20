@@ -1,14 +1,12 @@
-import { prop, Ref, modelOptions } from '@typegoose/typegoose';
-import { User } from './user';
+import { prop, Ref } from '@typegoose/typegoose';
+import { Account } from './account';
+import { EntityModel } from '@midwayjs/typegoose';
 
-@modelOptions({ schemaOptions: { timestamps: true } })
+@EntityModel()
 export class Reservation {
-  @prop({ ref: () => User, required: true })
-  userId: Ref<User>;
-
-  @prop({ required: true })
-  email: string;
-
+  @prop({ ref: () => Account, required: true })
+  userId: Ref<Account>;
+  
   @prop({ required: true })
   arrivalTime: Date;
 
@@ -17,4 +15,7 @@ export class Reservation {
 
   @prop({ enum: ['pending', 'approved', 'cancelled', 'completed'], default: 'pending' })
   status: string;
+
+  @prop()
+  createdAt: string
 }
