@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "askc-ui:dev": "pnpm --filter askc-ui run docs:dev",
+    "hotel-backend:dev": "pnpm --filter hotel-backend run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

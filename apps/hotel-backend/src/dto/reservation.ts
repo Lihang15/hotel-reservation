@@ -16,7 +16,7 @@ export class CreateReservationDTO{
 
 export class UpdateReservationDTO{
 
-    @Rule(RuleType.string().valid('approved', 'cancelled', 'completed').required())
+    @Rule(RuleType.string().valid('approved', 'cancelled', 'completed'))
     status: string;
   
     @Rule(RuleType.string())
@@ -29,7 +29,7 @@ export class UpdateReservationDTO{
 
 export class QueryReservationDTO {
 
-    @Rule(RuleType.string())
+    @Rule(RuleType.string().allow('',null))
     arrivalTime: string;
 
     @Rule(RuleType.string())

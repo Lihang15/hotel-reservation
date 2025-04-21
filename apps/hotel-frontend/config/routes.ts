@@ -48,7 +48,7 @@ export default [
     name: 'Welcome',
     path: '/welcome',
     exact: true,
-    hideInMenu: true,
+    hideInMenu: false,
     component: './Welcome'
   },
 

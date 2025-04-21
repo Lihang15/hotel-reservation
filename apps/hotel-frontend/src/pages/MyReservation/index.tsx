@@ -1,20 +1,14 @@
-import { SearchOutlined } from "@ant-design/icons";
-import { Button, Card, ConfigProvider, Input, InputRef, Modal, Space, TableColumnType, Tag, Tooltip } from "antd";
+import { Button, Card, Modal, Space } from "antd";
 import { message } from 'antd';
 import { FC, useEffect, useRef, useState } from "react";
 import styles from './styles.less';
 import { ProColumns, ProFormInstance, ProTable } from "@ant-design/pro-components";
-import { reservationList, updateProject, createProject } from '@/services/reservation/api';
-import type { FilterDropdownProps } from 'antd/es/table/interface';
-import Highlighter from 'react-highlight-words';
-import { history } from "@umijs/max";
+import { reservationList, updateReservation, createReservation } from '@/services/reservation/api';
 import Loading from "@/components/Loading";
 import CreateForm from "./Form/Create";
 import EditForm from "./Form/Edit";
+import dayjs from "dayjs";
 
-// ConfigProvider.config({
-//   locale: 'en',
-// });
 
 const Poject: FC<any> = () => {
 
@@ -22,9 +16,7 @@ const Poject: FC<any> = () => {
   const [tableData, setTableData] = useState<any>();
 
   //分页
-  const [pagination, setPagination] = useState<any>({current: 1,pageSize:5})
-  // 查询参数
-  const [params, setParams] = useState<{ [key: string]: string }>({});
+  const [pagination, setPagination] = useState<any>({current: 1,pageSize:10})
 
   const [pageLoading, setPageLoading] = useState(true);
 
@@ -42,9 +34,8 @@ const Poject: FC<any> = () => {
 			tableSize: string,
 			status: string,
     }
-    type DataIndex = keyof DataType;
     const fetchData = async () => {
-      const resp = await reservationList({...params,current: pagination.current,pageSize: pagination.pageSize})
+      const resp = await reservationList({current: pagination.current,pageSize: pagination.pageSize})
       const { code, message: errorMessage,data } = resp
       if (code !== 0) {
         message.error(errorMessage)
@@ -59,12 +50,12 @@ const Poject: FC<any> = () => {
         pageSize,
       }));
     };
-  // 初始化项目数据
+  // 初始化表格数据
   useEffect(() => {
    
     fetchData();
     setPageLoading(false)
-  }, [params, pagination.current, pagination.pageSize]);
+  }, [pagination.current, pagination.pageSize]);
 
 
   const handleTableChange = (pagination: any, filters: any, sorter: any) => {
@@ -78,48 +69,8 @@ const Poject: FC<any> = () => {
 
   }
 
-
-  const [searchText, setSearchText] = useState('');
-  const [searchedColumn, setSearchedColumn] = useState('');
-  const searchInput = useRef<InputRef>(null);
-
-  const handleSearch = (
-    selectedKeys: string[],
-    confirm: FilterDropdownProps['confirm'],
-    dataIndex: DataIndex,
-  ) => {
-    confirm();
-
-    setSearchText(selectedKeys[0]);
-    setSearchedColumn(dataIndex);
-
-
-    // 更新 params，存储列名和输入值
-    setParams((prevParams) => ({
-      ...prevParams,
-      [dataIndex]: selectedKeys[0], // 将列名和输入值存储到 params 中
-    }));
-  };
-
-  const handleReset = (clearFilters: () => void) => {
-    clearFilters();
-    setSearchText('');
-  };
-  const handlePatternClick = (id: number):any =>{
-    const fetch = async ()=>{
-       await updateProject({id},{isCurrent: true}) 
-       history.push(`/project/${id}/pattern`,{id})
-    }  
-   
-   fetch()
-
-  }
-
-  const handleProjectNameCilck = (record: any)=>{
-    message.info('Successfully toggle chart statistics')
-  }
   const handleAddClick = async()=>{
-    setIsAddProject(true)
+    setisAddReservation(true)
   }
 
   const columns: ProColumns[] = [
@@ -146,6 +97,7 @@ const Poject: FC<any> = () => {
       title: 'Arrival Time',
       dataIndex: 'arrivalTime',
       key: 'arrivalTime',
+      render: (_,record)=>(<span>{dayjs(record.arrivalTime).format('YYYY-MM-DD')}</span>)
     },
     {
       sorter: false,
@@ -171,31 +123,37 @@ const Poject: FC<any> = () => {
       hideInSearch: true,
       render: (record: any) => (
         <Space size="middle">
-           <Button type='primary' size="small" onClick={() => {
+            {record.status === 'pending' && (
+        <Button
+          type="primary"
+          size="small"
+          danger
+          onClick={() => {
             setCurrentRecord(record);
             setCancelConfirmVisible(true);
-          }}>Cancel Reservation </Button> 
+          }}
+        >
+          Cancel
+        </Button>
+      )}
           
            <Button type='primary' size="small" onClick={() => {
+            
           setCurrentRecord(record);
           setEditModalVisible(true);
-        }}>Edit Reservation</Button> 
+        }}>Edit</Button> 
         </Space>
       ),
     },
   ];
     // add项目
-    const [isAddProject, setIsAddProject] = useState<any>(false)
+    const [isAddReservation, setisAddReservation] = useState<any>(false)
     const handleAddFormSubmit = async (values: any) => {
       console.log('表单提交数据:', values);
-        // 转义路径中的反斜杠
-      const escapedValues = {
-        ...values,
-      };
-        const resp = await createProject(escapedValues)
+        const resp = await createReservation(values)
         const { code, message: m } = resp
         if (code === 0) {
-          setIsAddProject(false); // 提交成功后关闭浮层
+          setisAddReservation(false); // 提交成功后关闭浮层
           fetchData();
         } else {
           message.error(m);
@@ -205,7 +163,7 @@ const Poject: FC<any> = () => {
 
     // edit
     const [editModalVisible, setEditModalVisible] = useState(false);
-  const [currentRecord, setCurrentRecord] = useState(null);
+  const [currentRecord, setCurrentRecord] = useState<any>(null);
 
   // cancel
 
@@ -213,11 +171,10 @@ const Poject: FC<any> = () => {
 const [cancelConfirmVisible, setCancelConfirmVisible] = useState(false);
 
 // 调用取消接口
-const cancelReservation = async (record) => {
+const cancelReservation = async (record: any) => {
   try {
-    await fetch(`/api/reservations/${record._id}/cancel`, {
-      method: 'POST',
-    });
+    await updateReservation({_id: currentRecord?._id}, {status: 'cancelled'});
+    fetchData()
     message.success('Reservation cancelled successfully!');
     setCancelConfirmVisible(false);
   } catch (err) {
@@ -239,7 +196,7 @@ const cancelReservation = async (record) => {
         onChange={handleTableChange}
          toolBarRender={() => [
         
-                    <Button type='primary'  onClick={handleAddClick}>Create Reservation</Button>
+                    <Button type='primary'  onClick={handleAddClick}>Create</Button>
                   ]}
         rowKey={(record) => record._id}
         
@@ -249,9 +206,9 @@ const cancelReservation = async (record) => {
     </Card>
 
     {
-        isAddProject && (
+        isAddReservation && (
           <CreateForm
-            onClose={() => setIsAddProject(false)}
+            onClose={() => setisAddReservation(false)}
             onSubmit={handleAddFormSubmit}
           />
         )
@@ -263,8 +220,9 @@ const cancelReservation = async (record) => {
             <EditForm
               record={currentRecord}
               onClose={() => setEditModalVisible(false)}
-              onSubmit={async (values) => {
-                // await updateReservation(currentRecord._id, values);
+              onSubmit={async (values: any) => {
+                await updateReservation({_id: currentRecord?._id}, values);
+                fetchData()
                 setEditModalVisible(false);
                 // loadData();
               }}

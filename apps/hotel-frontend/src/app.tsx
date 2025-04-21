@@ -30,7 +30,7 @@ export const layout = () => {
     fixedHeader: false,
     fixSiderbar: true,
     colorWeak: false,
-    title: 'PCA',
+    title: 'Hilton',
     pwa: false,
     pure: false,
     iconfontUrl: '/logo/logo.png',

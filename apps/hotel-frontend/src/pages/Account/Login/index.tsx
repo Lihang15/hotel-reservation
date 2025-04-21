@@ -4,7 +4,6 @@ import {
 } from '@ant-design/icons';
 import {
   LoginForm,
-  ProFormCheckbox,
   ProFormText,
 } from '@ant-design/pro-components';
 import styles from './styles.less'
@@ -25,6 +24,16 @@ export default () => {
         const account = await me({})
         setCurrentAccount(account.data)
         setInitialState(account.data)
+        // if(account.data.role==='guest'){
+        //   history.push('/my_reservation')
+        
+        // }
+        // if(account.data.role==='staff'){
+        //   history.push('/reservation_management')
+          
+        // }
+        console.log('account',account);
+        
         history.push('/')
       } else {
         message.error('The user name or password is incorrect')

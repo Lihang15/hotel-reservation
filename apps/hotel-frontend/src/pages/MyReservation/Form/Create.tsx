@@ -58,13 +58,13 @@ const CreateForm = ({ onClose, onSubmit }) => {
   rules={[
     { required: true, message: 'Please enter the Arrival Time!' },
   ]}
-  transform={(value) => {
-    // 组合当前年 + 用户选的月日
-    const fullDate = dayjs(`${dayjs().year()}-${value.format('MM-DD')}`, 'YYYY-MM-DD');
-    return {
-      arrivalTime: fullDate.toDate(),
-    };
-  }}
+  // transform={(value) => {
+  //   // 组合当前年 + 用户选的月日
+  //   const fullDate = dayjs(`${dayjs().year()}-${value.format('MM-DD')}`, 'YYYY-MM-DD');
+  //   return {
+  //     arrivalTime: fullDate.toDate(),
+  //   };
+  // }}
 />
 <ProFormDigit
   width="md"

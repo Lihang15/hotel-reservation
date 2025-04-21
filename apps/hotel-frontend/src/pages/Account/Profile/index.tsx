@@ -21,7 +21,7 @@ export default () => {
         ellipsis
         label="Username"
       >
-        {currentAccount.username}
+        {currentAccount.guestName}
       </ProDescriptions.Item>
 
 
@@ -31,24 +31,11 @@ export default () => {
       <ProDescriptions.Item
         label="Role"
       >
-        {currentAccount.roles.toString()}
+        {currentAccount.role}
       </ProDescriptions.Item>
 
             
             
-      <ProDescriptions.Item
-
-        label="Has project"
-      >
-        {currentAccount.isHaveProject?'true':'false'}
-      </ProDescriptions.Item>
-      <ProDescriptions.Item
-        valueType="text"
-
-        label="Is Admin"
-      >
-        {currentAccount.roles.includes('Admin')?'true':'false'}
-      </ProDescriptions.Item>
 
 
 
