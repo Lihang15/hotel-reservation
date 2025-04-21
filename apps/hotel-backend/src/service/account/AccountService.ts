@@ -4,8 +4,6 @@ import { LoginDTO } from "../../dto/account";
 import { BusinessError, BusinessErrorEnum, FailType, FailReason } from "../../error/BusinessError";
 import { JwtService } from "@midwayjs/jwt";
 import { ILogger } from "@midwayjs/logger";
-// import { Sequelize } from "sequelize-typescript";
-// import { InjectDataSource } from "@midwayjs/sequelize";
 import { Account } from "../../entity/mongo/account";
 import { InjectEntityModel } from "@midwayjs/typegoose";
 import { ReturnModelType } from "@typegoose/typegoose";
@@ -15,7 +13,7 @@ import { ReturnModelType } from "@typegoose/typegoose";
 /**
  * 账户服务层
  * @author lihang.wang
- * @date 2024.12.11
+ * @date 2025-04-20
  */
 @Provide()
 export class AccountService{
@@ -49,7 +47,6 @@ export class AccountService{
         if(!account){
            throw new BusinessError(BusinessErrorEnum.NOT_FOUND,`${FailType.LOGIN_FAILED}${FailReason.INCORRECT_USER_NAME_OR_PASSWORD}`)
         }
-        // console.log(account);
         
         const token = await this.jwtService.sign({_id: account._id.toString()})
         

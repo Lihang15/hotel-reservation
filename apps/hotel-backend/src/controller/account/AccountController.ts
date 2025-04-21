@@ -6,7 +6,7 @@ import { AccountService } from "../../service/account/AccountService";
 /**
  * 账户控制器
  * @author lihang.wang
- * @date 2024.12.11
+ * @date 2025-04-20
  */
 @Controller('/api')
 export class AccountController{

@@ -7,7 +7,11 @@ import { CreateReservationDTO, QueryReservationDTO, UpdateReservationDTO } from 
 import * as dayjs from 'dayjs';
 import { Account } from '../../entity/mongo/account';
 
-
+/**
+ * 预定业务处理
+ * @author lihang.wang
+ * @date 2025-04-20
+ */
 @Provide()
 export class ReservationService {
       @InjectEntityModel(Reservation)

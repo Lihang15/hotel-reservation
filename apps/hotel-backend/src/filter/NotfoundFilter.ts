@@ -4,7 +4,7 @@ import { Context } from '@midwayjs/koa';
 /**
  * 捕获404异常
  * @author lihang.wang
- * @date 2024.12.26
+ * @date 2025-04-20
  */
 @Catch(httpError.NotFoundError)
 export class NotFoundFilter {

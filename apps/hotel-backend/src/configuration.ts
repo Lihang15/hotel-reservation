@@ -12,7 +12,6 @@ import * as crossDomain from '@midwayjs/cross-domain';
 import * as jwt from '@midwayjs/jwt';
 import { JwtMiddleware } from './middleware/auth.middleware';
 import { StaticFileMiddleware } from './middleware/static.middleware';
-import { VitepressServeMiddleware } from './middleware/vitepress-serve.middleware';
 import * as cron from '@midwayjs/cron';
 import * as busboy from '@midwayjs/busboy';
 import * as typegoose from '@midwayjs/typegoose';
@@ -44,13 +43,13 @@ export class MainConfiguration {
 
   async onReady() {
     // add middleware
-    this.app.useMiddleware([ReportMiddleware,StaticFileMiddleware,VitepressServeMiddleware, JwtMiddleware]);
+    this.app.useMiddleware([ReportMiddleware,StaticFileMiddleware, JwtMiddleware]);
     // add filter
     this.app.useFilter([NotFoundFilter, DefaultErrorFilter, BusinessErrorFilter, ValidationErrorFilter]);
   }
 
  async onServerReady(container: IMidwayContainer){
-    console.log('初始化管理员数据');
+    console.log('初始化数据');
  
     const accountService = await container.getAsync(AccountService);
     await accountService.initDataInDB()

@@ -11,7 +11,7 @@ import { ReturnModelType } from '@typegoose/typegoose';
 /**
  * 过滤器,用于鉴权
  * @author lihang.wang
- * @date 2024.12.26
+ * @date 2025-04-20
  */
 @Middleware()
 export class JwtMiddleware {

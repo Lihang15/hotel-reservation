@@ -1,11 +1,15 @@
-import { Provide, Inject, Controller, Post, Body, Get, Put, Query, Param } from '@midwayjs/core';
+import { Inject, Controller, Post, Body, Get, Put, Query, Param } from '@midwayjs/core';
 import { ReservationService } from '../../service/reservation/ReservationService';
 import { CreateReservationDTO, QueryReservationDTO, UpdateReservationDTO } from '../../dto/reservation';
 import { RuleType, Valid } from '@midwayjs/validate';
 import { ResponseService } from '../../service/common/ResponseService';
 
 
-@Provide()
+/**
+ * 预定控制器
+ * @author lihang.wang
+ * @date 2025-04-21
+ */
 @Controller('/api')
 export class ReservationController {
   @Inject()
