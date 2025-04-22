@@ -4,9 +4,11 @@
 
 ## 运行
 ```
-1. 进入项目根目录，运行docker compose up ，把数据跑起来
+1. 进入项目根目录，运行docker compose up，把数据跑起来
 2. 进入 hotel-backend目录下，执行pnpm run dev
 3. 进入 hotel-frontend目录下，执行pnpm run dev
+4. 在浏览器输入 localhost:8000,可看到效果
+
 可选 进入 hotel-nest-graphql目录下,执行
 pnpm run start:dev 
 ```
